@@ -1,0 +1,37 @@
+@import 'tailwindcss';
+@import '@fontsource/cairo/400.css';
+@import '@fontsource/cairo/600.css';
+@import '@fontsource/cairo/700.css';
+@import '@fontsource/cairo/800.css';
+
+@theme {
+  --font-sans: 'Cairo', system-ui, sans-serif;
+
+  --color-navy-900: #14304f;
+  --color-navy-700: #1d4670;
+  --color-gold-500: #b08d3c;
+  --color-gold-100: #fbf6e8;
+  --color-ink: #1f2933;
+  --color-muted: #5b6773;
+  --color-surface: #fffefb;
+  --color-tint: #f3f6fa;
+  --color-line: #dde3ea;
+  --color-success: #1f7a4d;
+  --color-warning: #b7791f;
+  --color-danger: #b83232;
+  --color-info: #2b6cb0;
+
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+html {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+}
