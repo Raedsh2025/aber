@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "seed:admin": "tsx scripts/seed-admin.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
