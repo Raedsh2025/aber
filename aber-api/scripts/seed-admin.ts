@@ -14,7 +14,8 @@ async function main(): Promise<void> {
   const hash = await bcrypt.hash(password, BCRYPT_COST);
   await pool.query(
     `INSERT INTO users (full_name, email, password_hash, role)
-     VALUES ('مدير النظام', $1, $2, 'system_admin') ON CONFLICT DO NOTHING`,
+     VALUES ('System Administrator', $1, $2, 'system_admin') 
+     ON CONFLICT DO NOTHING`,
     [email, hash],
   );
   console.log('admin ready');
