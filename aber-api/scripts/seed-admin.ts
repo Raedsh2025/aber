@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { pool } from '../src/db/pool';
+import { upsertAdmin } from './upsertAdmin';
 
 const BCRYPT_COST = 12;
 
@@ -12,14 +13,13 @@ async function main(): Promise<void> {
   }
 
   const hash = await bcrypt.hash(password, BCRYPT_COST);
-  await pool.query(
-    `INSERT INTO users (full_name, email, password_hash, role)
-     VALUES ('System Administrator', $1, $2, 'system_admin') 
-     ON CONFLICT DO NOTHING`,
-    [email, hash],
-  );
-  console.log('admin ready');
-  await pool.end();
+  const outcome = await upsertAdmin(pool, email, hash);
+  console.log(outcome === 'created' ? 'admin created' : 'admin password updated');
 }
 
-void main();
+main()
+  .catch((error: unknown) => {
+    console.error(error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+  })
+  .finally(() => pool.end());
