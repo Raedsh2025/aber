@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { ROLE_LABEL } from '@/domain/entities/User';
 import { Button } from '@/presentation/components/ui/Button';
 import { useAuthStore } from '@/presentation/stores/authStore';
@@ -28,6 +28,18 @@ export function AppLayout(): JSX.Element {
           )}
         </div>
       </header>
+      {user && (user.role === 'branch_staff' || user.role === 'company_admin') && (
+        <nav className="border-b border-line bg-surface">
+          <div className="mx-auto flex max-w-5xl gap-4 px-4">
+            <NavLink
+              to="/branch/shipments"
+              className="inline-flex min-h-11 items-center font-semibold text-navy-900"
+            >
+              الشحنات
+            </NavLink>
+          </div>
+        </nav>
+      )}
       <main className="mx-auto max-w-5xl p-4">
         <Outlet />
       </main>

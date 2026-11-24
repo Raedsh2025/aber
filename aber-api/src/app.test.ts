@@ -11,6 +11,7 @@ const testApp = () =>
       publicRouter: Router(),
       shipmentRouter: Router(),
       tripRouter: Router(),
+      branchRouter: Router(),
     },
   );
 
