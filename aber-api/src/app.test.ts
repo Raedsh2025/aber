@@ -4,7 +4,10 @@ import { describe, expect, it } from 'vitest';
 import { createApp } from './app';
 
 const testApp = () =>
-  createApp({ corsOrigin: 'http://localhost:5173', isTest: true }, { authRouter: Router() });
+  createApp(
+    { corsOrigin: 'http://localhost:5173', isTest: true },
+    { authRouter: Router(), publicRouter: Router(), shipmentRouter: Router() },
+  );
 
 describe('GET /health', () => {
   it('returns ok', async () => {
