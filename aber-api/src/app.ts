@@ -2,16 +2,21 @@ import cors from 'cors';
 import express, { type Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { env } from './config/env';
 import { errorHandler } from './middlewares/errorHandler';
 import { AppError } from './shared/AppError';
 
-export function createApp(): Express {
+export interface AppConfig {
+  corsOrigin: string;
+  isTest: boolean;
+}
+
+// The config is passed in (not imported) so the app and its tests do not need database settings.
+export function createApp(config: AppConfig): Express {
   const app = express();
   app.use(helmet());
-  app.use(cors({ origin: env.CORS_ORIGIN }));
+  app.use(cors({ origin: config.corsOrigin }));
   app.use(express.json());
-  if (env.NODE_ENV !== 'test') app.use(morgan('dev'));
+  if (!config.isTest) app.use(morgan('dev'));
 
   app.get('/health', (_req, res) => {
     res.json({ data: { status: 'ok' } });
