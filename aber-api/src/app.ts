@@ -14,6 +14,8 @@ export interface AppConfig {
 
 export interface AppRouters {
   authRouter: Router;
+  publicRouter: Router;
+  shipmentRouter: Router;
 }
 
 // Config and routers are passed in (not imported) so the app and its tests do not need
@@ -30,6 +32,8 @@ export function createApp(config: AppConfig, routers: AppRouters): Express {
   });
 
   app.use('/api/auth', routers.authRouter);
+  app.use('/api/public', routers.publicRouter);
+  app.use('/api/shipments', routers.shipmentRouter);
 
   app.use((_req, _res, next) => {
     next(new AppError(404, 'NOT_FOUND', 'المسار غير موجود'));
