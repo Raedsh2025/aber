@@ -48,6 +48,11 @@ export function AppLayout(): JSX.Element {
           <NavLink to="/dashboard" className={navClass}>
             الرئيسية
           </NavLink>
+          {user?.role === 'line_driver' && (
+            <NavLink to="/driver/trips" className={navClass}>
+              رحلاتي
+            </NavLink>
+          )}
           {hasShipments && (
             <NavLink to="/branch/shipments" className={navClass}>
               الشحنات

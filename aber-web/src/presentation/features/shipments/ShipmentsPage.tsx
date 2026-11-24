@@ -61,7 +61,7 @@ export function ShipmentsPage(): JSX.Element {
         </Select>
       </Card>
 
-      <Card className="overflow-hidden p-0 sm:p-0">
+      <Card flush>
         {loading ? (
           <Spinner />
         ) : error ? (
