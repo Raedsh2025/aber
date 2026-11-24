@@ -8,10 +8,10 @@ const formatter = new Intl.DateTimeFormat('ar-SY-u-nu-latn', {
 
 export function Timeline({ items }: { items: StatusHistoryItem[] }): JSX.Element {
   return (
-    <ol className="border-s-2 border-line ps-4">
+    <ol className="border-s-2 border-gold-500/40 ps-5">
       {items.map((item, index) => (
         <li key={`${item.status}-${item.changedAt}-${index}`} className="relative pb-4">
-          <span className="absolute -start-[25px] top-1.5 h-3 w-3 rounded-full bg-navy-900" />
+          <span className="absolute -start-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-gold-500 bg-navy-900 ring-4 ring-surface" />
           <p className="font-semibold text-navy-900">{SHIPMENT_STATUS_LABEL[item.status]}</p>
           <p dir="ltr" className="text-small text-muted text-start">
             {formatter.format(new Date(item.changedAt))}

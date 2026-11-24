@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { Logo } from '@/presentation/components/shared/Logo';
 import { Button } from '@/presentation/components/ui/Button';
 import { Card } from '@/presentation/components/ui/Card';
 import { Input } from '@/presentation/components/ui/Input';
@@ -19,13 +20,18 @@ export function TrackPage(): JSX.Element {
   };
 
   return (
-    <main className="min-h-screen bg-tint flex flex-col items-center gap-6 p-6">
-      <header className="text-center pt-8">
-        <h1 className="text-navy-900 text-[32px] font-extrabold">عابر</h1>
-        <p className="text-muted">تتبّع شحنتك برقم البوليصة</p>
+    <main className="bg-page flex min-h-screen flex-col items-center gap-6 pb-10">
+      <header className="bg-brand relative w-full overflow-hidden px-6 pt-10 pb-24 text-center text-white">
+        <span
+          aria-hidden="true"
+          className="animate-float absolute -bottom-20 -start-16 h-56 w-56 rounded-full border-[24px] border-gold-500/25"
+        />
+        <Logo tone="light" size="lg" className="relative" />
+        <h1 className="relative mt-5 text-[26px] font-extrabold">أين شحنتك الآن؟</h1>
+        <p className="relative mt-1 text-white/80">تتبّع شحنتك برقم البوليصة، بدون تسجيل دخول</p>
       </header>
 
-      <Card variant="highlight" className="w-full max-w-md">
+      <Card variant="highlight" className="-mt-20 mx-4 w-full max-w-md shadow-lift">
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <Input
             label="رقم البوليصة"
@@ -47,7 +53,7 @@ export function TrackPage(): JSX.Element {
       </Card>
 
       {result && (
-        <Card className="w-full max-w-md">
+        <Card className="mx-4 w-full max-w-md">
           <div className="flex items-center justify-between gap-3">
             <span dir="ltr" className="font-mono font-bold text-navy-900">
               {result.trackingNumber}
@@ -62,7 +68,7 @@ export function TrackPage(): JSX.Element {
         </Card>
       )}
 
-      <Link to="/login" className="text-navy-700 underline">
+      <Link to="/login" className="font-semibold text-navy-700 underline-offset-4 hover:underline">
         دخول الموظفين
       </Link>
     </main>

@@ -14,7 +14,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const selectId = id ?? generatedId;
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={selectId} className="font-semibold text-ink">
+      <label htmlFor={selectId} className="text-sm font-semibold text-navy-900">
         {label}
       </label>
       <select
@@ -23,7 +23,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         aria-invalid={error ? true : undefined}
         className={clsx(
           'h-11 rounded-md border bg-surface px-3 text-ink',
-          'focus:outline-2 focus:outline-navy-700',
+          'focus:border-gold-500 focus:outline-2 focus:outline-gold-500/40',
           error ? 'border-danger' : 'border-line',
           className,
         )}
