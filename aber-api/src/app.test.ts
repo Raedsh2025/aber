@@ -6,7 +6,12 @@ import { createApp } from './app';
 const testApp = () =>
   createApp(
     { corsOrigin: 'http://localhost:5173', isTest: true },
-    { authRouter: Router(), publicRouter: Router(), shipmentRouter: Router() },
+    {
+      authRouter: Router(),
+      publicRouter: Router(),
+      shipmentRouter: Router(),
+      tripRouter: Router(),
+    },
   );
 
 describe('GET /health', () => {
