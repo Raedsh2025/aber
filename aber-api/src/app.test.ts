@@ -1,8 +1,10 @@
+import { Router } from 'express';
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 import { createApp } from './app';
 
-const testApp = () => createApp({ corsOrigin: 'http://localhost:5173', isTest: true });
+const testApp = () =>
+  createApp({ corsOrigin: 'http://localhost:5173', isTest: true }, { authRouter: Router() });
 
 describe('GET /health', () => {
   it('returns ok', async () => {
