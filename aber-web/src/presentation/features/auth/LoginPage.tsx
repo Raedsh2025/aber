@@ -25,7 +25,8 @@ export function LoginPage(): JSX.Element {
 
   return (
     <Card variant="highlight" className="w-full max-w-md">
-      <h2 className="text-navy-900 text-[20px] font-bold mb-4">تسجيل الدخول</h2>
+      <h2 className="text-[20px] font-bold text-navy-900">تسجيل الدخول</h2>
+      <p className="mt-1 mb-5 text-muted">أهلًا بعودتك، أدخل بياناتك للمتابعة.</p>
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-4">
         <Input
           label="البريد الإلكتروني"

@@ -35,7 +35,7 @@ export function ShipmentsPage(): JSX.Element {
         <h2 className="text-navy-900 text-[20px] font-bold">الشحنات</h2>
         <Link
           to="/branch/shipments/new"
-          className="inline-flex h-11 items-center rounded-md bg-navy-900 px-5 font-semibold text-white"
+          className="inline-flex h-11 items-center rounded-md bg-gradient-to-b from-navy-700 to-navy-900 px-5 font-semibold text-white shadow-card transition hover:shadow-lift active:scale-[0.98]"
         >
           شحنة جديدة
         </Link>
@@ -61,7 +61,7 @@ export function ShipmentsPage(): JSX.Element {
         </Select>
       </Card>
 
-      <Card className="p-0">
+      <Card className="overflow-hidden p-0 sm:p-0">
         {loading ? (
           <Spinner />
         ) : error ? (
@@ -71,7 +71,7 @@ export function ShipmentsPage(): JSX.Element {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-start">
-              <thead className="bg-navy-900 text-white">
+              <thead className="bg-brand text-white">
                 <tr>
                   <th className="p-3 text-start">رقم البوليصة</th>
                   <th className="p-3 text-start">المستلم</th>
@@ -83,7 +83,10 @@ export function ShipmentsPage(): JSX.Element {
               </thead>
               <tbody>
                 {shipments.map((s) => (
-                  <tr key={s.id} className="border-b border-line">
+                  <tr
+                    key={s.id}
+                    className="border-b border-line/70 transition hover:bg-gold-100/60"
+                  >
                     <td className="p-3">
                       <Link
                         to={`/branch/shipments/${encodeURIComponent(s.trackingNumber)}`}

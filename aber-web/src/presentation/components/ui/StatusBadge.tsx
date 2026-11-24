@@ -15,8 +15,12 @@ const tone: Record<ShipmentStatus, string> = {
 export function StatusBadge({ status }: { status: ShipmentStatus }): JSX.Element {
   return (
     <span
-      className={clsx('inline-block rounded-full px-3 py-0.5 text-sm font-semibold', tone[status])}
+      className={clsx(
+        'inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-sm font-semibold',
+        tone[status],
+      )}
     >
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
       {SHIPMENT_STATUS_LABEL[status]}
     </span>
   );
