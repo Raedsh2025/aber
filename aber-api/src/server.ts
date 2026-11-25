@@ -22,6 +22,9 @@ import { createCompanyService } from './modules/companies/company.service';
 import { createReportRepository } from './modules/reports/report.repository';
 import { createReportRouter } from './modules/reports/report.routes';
 import { createReportService } from './modules/reports/report.service';
+import { createEstimateRepository } from './modules/estimate/estimate.repository';
+import { createEstimateRouter } from './modules/estimate/estimate.routes';
+import { createEstimateService } from './modules/estimate/estimate.service';
 import { createStatsRepository } from './modules/stats/stats.repository';
 import { createStatsRouter } from './modules/stats/stats.routes';
 import { createVehicleRepository } from './modules/vehicles/vehicle.repository';
@@ -81,6 +84,8 @@ const statsRouter = createStatsRouter(
   createAuthenticate(env.JWT_SECRET),
 );
 
+const estimateRouter = createEstimateRouter(createEstimateService(createEstimateRepository(pool)));
+
 createApp(
   { corsOrigin: env.CORS_ORIGIN, isTest: env.NODE_ENV === 'test' },
   {
@@ -94,6 +99,7 @@ createApp(
     companyRouter,
     reportRouter,
     statsRouter,
+    estimateRouter,
   },
 ).listen(env.PORT, () => {
   console.log(`aber-api listening on port ${env.PORT}`);

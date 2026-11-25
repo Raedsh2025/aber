@@ -23,6 +23,7 @@ export interface AppRouters {
   companyRouter: Router;
   reportRouter: Router;
   statsRouter: Router;
+  estimateRouter: Router;
 }
 
 // Config and routers are passed in (not imported) so the app and its tests do not need
@@ -40,6 +41,7 @@ export function createApp(config: AppConfig, routers: AppRouters): Express {
 
   app.use('/api/auth', routers.authRouter);
   app.use('/api/public', routers.publicRouter);
+  app.use('/api/public', routers.estimateRouter);
   app.use('/api/shipments', routers.shipmentRouter);
   app.use('/api/trips', routers.tripRouter);
   app.use('/api/branches', routers.branchRouter);
