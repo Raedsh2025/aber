@@ -14,6 +14,7 @@ const testApp = () =>
       branchRouter: Router(),
       vehicleRouter: Router(),
       staffRouter: Router(),
+      companyRouter: Router(),
     },
   );
 
