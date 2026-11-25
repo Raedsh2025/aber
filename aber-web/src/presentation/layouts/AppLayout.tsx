@@ -26,7 +26,7 @@ export function AppLayout(): JSX.Element {
 
   return (
     <div className="bg-page min-h-screen">
-      <header className="bg-brand sticky top-0 z-10 text-white shadow-lift">
+      <header className="no-print bg-brand sticky top-0 z-10 text-white shadow-lift">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <NavLink to="/dashboard" aria-label="الرئيسية">
             <Logo tone="light" />
@@ -50,7 +50,10 @@ export function AppLayout(): JSX.Element {
           )}
         </div>
       </header>
-      <nav aria-label="التنقل الرئيسي" className="border-b border-line bg-surface/80 backdrop-blur">
+      <nav
+        aria-label="التنقل الرئيسي"
+        className="no-print border-b border-line bg-surface/80 backdrop-blur"
+      >
         <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-2">
           <NavLink to="/dashboard" className={navClass}>
             الرئيسية
@@ -74,6 +77,11 @@ export function AppLayout(): JSX.Element {
           {hasShipments && (
             <NavLink to="/branch/shipments" className={navClass}>
               الشحنات
+            </NavLink>
+          )}
+          {hasShipments && (
+            <NavLink to="/branch/report" className={navClass}>
+              التقرير اليومي
             </NavLink>
           )}
         </div>

@@ -98,3 +98,13 @@ body {
   font-size: 15px;
   line-height: 1.7;
 }
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body,
+  .bg-page {
+    background: #fff !important;
+  }
+}

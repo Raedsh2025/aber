@@ -13,6 +13,7 @@ import { ApiBranchRepository } from '@/infrastructure/repositories/ApiBranchRepo
 import { ApiCompanyRepository } from '@/infrastructure/repositories/ApiCompanyRepository';
 import { ApiStaffRepository } from '@/infrastructure/repositories/ApiStaffRepository';
 import { ApiVehicleRepository } from '@/infrastructure/repositories/ApiVehicleRepository';
+import { ApiReportRepository } from '@/infrastructure/repositories/ApiReportRepository';
 import { ApiShipmentRepository } from '@/infrastructure/repositories/ApiShipmentRepository';
 import { ApiTripRepository } from '@/infrastructure/repositories/ApiTripRepository';
 
@@ -24,6 +25,7 @@ export const tripRepository = new ApiTripRepository();
 export const vehicleRepository = new ApiVehicleRepository();
 export const staffRepository = new ApiStaffRepository();
 export const companyRepository = new ApiCompanyRepository();
+export const reportRepository = new ApiReportRepository();
 
 export const createShipment = makeCreateShipment(shipmentRepository);
 export const advanceShipmentStatus = makeAdvanceShipmentStatus(shipmentRepository);

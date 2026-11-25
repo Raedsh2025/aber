@@ -195,6 +195,12 @@ export function ShipmentDetailPage(): JSX.Element {
         </Card>
         <Card className="flex justify-center">
           <QrLabel trackingNumber={shipment.trackingNumber} />
+          <Link
+            to={`/branch/shipments/${shipment.trackingNumber}/label`}
+            className="inline-flex min-h-11 items-center text-navy-900 underline"
+          >
+            صفحة الطباعة
+          </Link>
         </Card>
       </div>
     </div>
