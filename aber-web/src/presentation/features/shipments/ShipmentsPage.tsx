@@ -35,7 +35,7 @@ export function ShipmentsPage(): JSX.Element {
         <h2 className="text-navy-900 text-[20px] font-bold">الشحنات</h2>
         <Link
           to="/branch/shipments/new"
-          className="inline-flex h-11 items-center rounded-md bg-gradient-to-b from-navy-700 to-navy-900 px-5 font-semibold text-white shadow-card transition hover:shadow-lift active:scale-[0.98]"
+          className="inline-flex h-11 items-center rounded-md bg-linear-to-b from-navy-700 to-navy-900 px-5 font-semibold text-white shadow-card transition hover:shadow-lift active:scale-[0.98]"
         >
           شحنة جديدة
         </Link>
