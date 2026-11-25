@@ -108,3 +108,42 @@ body {
     background: #fff !important;
   }
 }
+
+/* Printing replaces server-side PDF: "Print / Save as PDF" calls window.print(). */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+@media print {
+  html,
+  body {
+    font-size: 12pt;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  a {
+    text-decoration: none;
+  }
+  .animate-rise {
+    animation: none !important;
+  }
+  .rounded-xl,
+  table,
+  tr,
+  li,
+  dl,
+  svg {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .shadow-card,
+  .shadow-lift {
+    box-shadow: none !important;
+  }
+  button,
+  input,
+  select {
+    display: none !important;
+  }
+}

@@ -12,6 +12,7 @@ import {
 import { nextStatuses } from '@/domain/services/shipmentStatus';
 import { QrLabel } from '@/presentation/components/shared/QrLabel';
 import { Button } from '@/presentation/components/ui/Button';
+import { PrintButton } from '@/presentation/components/ui/PrintButton';
 import { Card } from '@/presentation/components/ui/Card';
 import { ErrorState } from '@/presentation/components/ui/ErrorState';
 import { Input } from '@/presentation/components/ui/Input';
@@ -91,12 +92,15 @@ export function ShipmentDetailPage(): JSX.Element {
 
   return (
     <div className="flex flex-col gap-4">
-      <Link
-        to="/branch/shipments"
-        className="inline-flex min-h-11 items-center text-navy-700 underline"
-      >
-        العودة إلى القائمة
-      </Link>
+      <div className="no-print flex flex-wrap items-center justify-between gap-3">
+        <Link
+          to="/branch/shipments"
+          className="inline-flex min-h-11 items-center text-navy-700 underline"
+        >
+          العودة إلى القائمة
+        </Link>
+        <PrintButton />
+      </div>
 
       <Card variant="highlight">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -140,7 +144,7 @@ export function ShipmentDetailPage(): JSX.Element {
       </Card>
 
       {options.length > 0 && (
-        <Card>
+        <Card className="no-print">
           <h3 className="mb-3 font-bold text-navy-900">تغيير الحالة</h3>
           <div className="flex flex-wrap gap-3">
             {options.map((next) => (
@@ -163,7 +167,7 @@ export function ShipmentDetailPage(): JSX.Element {
       )}
 
       {shipment.status === 'arrived' && (
-        <Card>
+        <Card className="no-print">
           <h3 className="mb-3 font-bold text-navy-900">التسليم برمز التحقق</h3>
           <div className="flex flex-wrap items-end gap-3">
             <Input
@@ -197,7 +201,7 @@ export function ShipmentDetailPage(): JSX.Element {
           <QrLabel trackingNumber={shipment.trackingNumber} />
           <Link
             to={`/branch/shipments/${shipment.trackingNumber}/label`}
-            className="inline-flex min-h-11 items-center text-navy-900 underline"
+            className="no-print inline-flex min-h-11 items-center text-navy-900 underline"
           >
             صفحة الطباعة
           </Link>

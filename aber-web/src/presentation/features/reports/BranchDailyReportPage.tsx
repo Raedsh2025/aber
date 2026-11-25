@@ -8,6 +8,7 @@ import { Card } from '@/presentation/components/ui/Card';
 import { EmptyState } from '@/presentation/components/ui/EmptyState';
 import { ErrorState } from '@/presentation/components/ui/ErrorState';
 import { Input } from '@/presentation/components/ui/Input';
+import { PrintButton } from '@/presentation/components/ui/PrintButton';
 import { Select } from '@/presentation/components/ui/Select';
 import { Spinner } from '@/presentation/components/ui/Spinner';
 import { StatCard } from '@/presentation/components/ui/StatCard';
@@ -62,8 +63,11 @@ export function BranchDailyReportPage(): JSX.Element {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-[20px] font-bold text-navy-900">تقرير الفرع اليومي</h2>
-      <Card variant="highlight">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-[20px] font-bold text-navy-900">تقرير الفرع اليومي</h2>
+        {report && <PrintButton />}
+      </div>
+      <Card variant="highlight" className="no-print">
         <div className="grid gap-4 sm:grid-cols-2">
           <Input
             label="التاريخ (الافتراضي اليوم)"
