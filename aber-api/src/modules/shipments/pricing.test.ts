@@ -14,4 +14,14 @@ describe('calculatePrice', () => {
   it('rounds to a whole number', () => {
     expect(calculatePrice({ base_price: 100, price_per_kg: 0.333 }, 1, 'normal')).toBe(100);
   });
+  it('charges only the base price for a zero weight', () => {
+    expect(calculatePrice(route, 0, 'normal')).toBe(10_000);
+  });
+  it('rounds after applying the goods factor, not before', () => {
+    // (100 + 1 * 3) * 1.25 = 128.75 -> 129
+    expect(calculatePrice({ base_price: 100, price_per_kg: 1 }, 3, 'fragile')).toBe(129);
+  });
+  it('scales with heavy weights', () => {
+    expect(calculatePrice(route, 1000, 'refrigerated')).toBe(765_000);
+  });
 });
