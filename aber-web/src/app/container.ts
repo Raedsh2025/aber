@@ -11,6 +11,7 @@ import { makeScanShipment } from '@/application/useCases/scanTrip';
 import { ApiAuthRepository } from '@/infrastructure/repositories/ApiAuthRepository';
 import { ApiBranchRepository } from '@/infrastructure/repositories/ApiBranchRepository';
 import { ApiCompanyRepository } from '@/infrastructure/repositories/ApiCompanyRepository';
+import { ApiStatsRepository } from '@/infrastructure/repositories/ApiStatsRepository';
 import { ApiStaffRepository } from '@/infrastructure/repositories/ApiStaffRepository';
 import { ApiVehicleRepository } from '@/infrastructure/repositories/ApiVehicleRepository';
 import { ApiReportRepository } from '@/infrastructure/repositories/ApiReportRepository';
@@ -26,6 +27,7 @@ export const vehicleRepository = new ApiVehicleRepository();
 export const staffRepository = new ApiStaffRepository();
 export const companyRepository = new ApiCompanyRepository();
 export const reportRepository = new ApiReportRepository();
+export const statsRepository = new ApiStatsRepository();
 
 export const createShipment = makeCreateShipment(shipmentRepository);
 export const advanceShipmentStatus = makeAdvanceShipmentStatus(shipmentRepository);

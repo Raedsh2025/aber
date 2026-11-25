@@ -65,6 +65,11 @@ export function AppLayout(): JSX.Element {
               </NavLink>
             ))}
           {user?.role === 'system_admin' && (
+            <NavLink to="/system/stats" className={navClass}>
+              الإحصاءات
+            </NavLink>
+          )}
+          {user?.role === 'system_admin' && (
             <NavLink to="/system/companies" className={navClass}>
               الشركات
             </NavLink>

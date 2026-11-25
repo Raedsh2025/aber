@@ -7,6 +7,7 @@ import { AdminTripsPage } from '@/presentation/features/admin/AdminTripsPage';
 import { BranchesPage } from '@/presentation/features/admin/BranchesPage';
 import { StaffPage } from '@/presentation/features/admin/StaffPage';
 import { VehiclesPage } from '@/presentation/features/admin/VehiclesPage';
+import { SystemStatsPage } from '@/presentation/features/system/SystemStatsPage';
 import { CompaniesPage } from '@/presentation/features/system/CompaniesPage';
 import { BranchDailyReportPage } from '@/presentation/features/reports/BranchDailyReportPage';
 import { ShipmentLabelPage } from '@/presentation/features/shipments/ShipmentLabelPage';
@@ -41,7 +42,10 @@ export const routes: RouteObject[] = [
           },
           {
             element: <ProtectedRoute roles={['system_admin']} />,
-            children: [{ path: '/system/companies', element: <CompaniesPage /> }],
+            children: [
+              { path: '/system/stats', element: <SystemStatsPage /> },
+              { path: '/system/companies', element: <CompaniesPage /> },
+            ],
           },
           {
             element: <ProtectedRoute roles={['line_driver']} />,
