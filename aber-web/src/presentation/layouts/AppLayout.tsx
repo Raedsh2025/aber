@@ -12,6 +12,13 @@ const navClass = ({ isActive }: { isActive: boolean }): string =>
     isActive ? 'bg-navy-900 text-white shadow-card' : 'text-navy-900 hover:bg-navy-900/5',
   );
 
+const ADMIN_LINKS = [
+  { to: '/admin/trips', label: 'الرحلات' },
+  { to: '/admin/branches', label: 'الفروع' },
+  { to: '/admin/staff', label: 'الموظفون' },
+  { to: '/admin/vehicles', label: 'المركبات' },
+];
+
 export function AppLayout(): JSX.Element {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
@@ -48,6 +55,17 @@ export function AppLayout(): JSX.Element {
           <NavLink to="/dashboard" className={navClass}>
             الرئيسية
           </NavLink>
+          {user?.role === 'company_admin' &&
+            ADMIN_LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} className={navClass}>
+                {link.label}
+              </NavLink>
+            ))}
+          {user?.role === 'line_driver' && (
+            <NavLink to="/driver/trips" className={navClass}>
+              رحلاتي
+            </NavLink>
+          )}
           {hasShipments && (
             <NavLink to="/branch/shipments" className={navClass}>
               الشحنات

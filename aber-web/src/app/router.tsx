@@ -3,6 +3,12 @@ import { ProtectedRoute } from '@/presentation/components/shared/ProtectedRoute'
 import { LoginPage } from '@/presentation/features/auth/LoginPage';
 import { DashboardPage } from '@/presentation/features/dashboard/DashboardPage';
 import { ForbiddenPage } from '@/presentation/features/errors/ForbiddenPage';
+import { AdminTripsPage } from '@/presentation/features/admin/AdminTripsPage';
+import { BranchesPage } from '@/presentation/features/admin/BranchesPage';
+import { StaffPage } from '@/presentation/features/admin/StaffPage';
+import { VehiclesPage } from '@/presentation/features/admin/VehiclesPage';
+import { DriverTripsPage } from '@/presentation/features/trips/DriverTripsPage';
+import { TripManifestPage } from '@/presentation/features/trips/TripManifestPage';
 import { NewShipmentPage } from '@/presentation/features/shipments/NewShipmentPage';
 import { ShipmentDetailPage } from '@/presentation/features/shipments/ShipmentDetailPage';
 import { ShipmentsPage } from '@/presentation/features/shipments/ShipmentsPage';
@@ -21,6 +27,22 @@ export const routes: RouteObject[] = [
         element: <AppLayout />,
         children: [
           { path: '/dashboard', element: <DashboardPage /> },
+          {
+            element: <ProtectedRoute roles={['company_admin']} />,
+            children: [
+              { path: '/admin/branches', element: <BranchesPage /> },
+              { path: '/admin/staff', element: <StaffPage /> },
+              { path: '/admin/vehicles', element: <VehiclesPage /> },
+              { path: '/admin/trips', element: <AdminTripsPage /> },
+            ],
+          },
+          {
+            element: <ProtectedRoute roles={['line_driver']} />,
+            children: [
+              { path: '/driver/trips', element: <DriverTripsPage /> },
+              { path: '/driver/trips/:tripId', element: <TripManifestPage /> },
+            ],
+          },
           {
             element: <ProtectedRoute roles={['branch_staff', 'company_admin']} />,
             children: [

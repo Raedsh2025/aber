@@ -13,6 +13,12 @@ import { createBranchService } from './modules/branches/branch.service';
 import { createTripRepository } from './modules/trips/trip.repository';
 import { createTripRouter } from './modules/trips/trip.routes';
 import { createTripService } from './modules/trips/trip.service';
+import { createStaffRepository } from './modules/staff/staff.repository';
+import { createStaffRouter } from './modules/staff/staff.routes';
+import { createStaffService } from './modules/staff/staff.service';
+import { createVehicleRepository } from './modules/vehicles/vehicle.repository';
+import { createVehicleRouter } from './modules/vehicles/vehicle.routes';
+import { createVehicleService } from './modules/vehicles/vehicle.service';
 import { createShipmentService } from './modules/shipments/shipment.service';
 
 // Composition root: the only place where real implementations are wired together.
@@ -43,6 +49,15 @@ const branchRouter = createBranchRouter(
   createAuthenticate(env.JWT_SECRET),
 );
 
+const vehicleRouter = createVehicleRouter(
+  createVehicleService(createVehicleRepository(pool)),
+  createAuthenticate(env.JWT_SECRET),
+);
+const staffRouter = createStaffRouter(
+  createStaffService(createStaffRepository(pool)),
+  createAuthenticate(env.JWT_SECRET),
+);
+
 createApp(
   { corsOrigin: env.CORS_ORIGIN, isTest: env.NODE_ENV === 'test' },
   {
@@ -51,6 +66,8 @@ createApp(
     shipmentRouter,
     tripRouter,
     branchRouter,
+    vehicleRouter,
+    staffRouter,
   },
 ).listen(env.PORT, () => {
   console.log(`aber-api listening on port ${env.PORT}`);

@@ -79,6 +79,28 @@ function ShipmentOverview(): JSX.Element {
   );
 }
 
+function DriverShortcut(): JSX.Element {
+  return (
+    <Link
+      to="/driver/trips"
+      className="block rounded-xl focus-visible:outline-2 focus-visible:outline-gold-500"
+    >
+      <Card variant="highlight" interactive className="flex items-center gap-4">
+        <span
+          aria-hidden="true"
+          className="flex h-12 w-12 items-center justify-center rounded-lg bg-gold-500/15 text-gold-500"
+        >
+          <Truck />
+        </span>
+        <div>
+          <p className="text-[17px] font-bold text-navy-900">رحلاتي</p>
+          <p className="text-muted">عرض الرحلات المسندة إليك، ومسح التحميل والوصول.</p>
+        </div>
+      </Card>
+    </Link>
+  );
+}
+
 export function DashboardPage(): JSX.Element {
   const user = useAuthStore((s) => s.user);
   if (!user) return <></>;
@@ -87,7 +109,9 @@ export function DashboardPage(): JSX.Element {
   return (
     <div className="flex flex-col gap-6">
       <Hero user={user} showNewShipment={hasShipments} />
-      {hasShipments ? (
+      {user.role === 'line_driver' ? (
+        <DriverShortcut />
+      ) : hasShipments ? (
         <ShipmentOverview />
       ) : (
         <Card variant="highlight">
