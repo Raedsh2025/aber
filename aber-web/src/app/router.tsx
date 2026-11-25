@@ -8,6 +8,8 @@ import { BranchesPage } from '@/presentation/features/admin/BranchesPage';
 import { StaffPage } from '@/presentation/features/admin/StaffPage';
 import { VehiclesPage } from '@/presentation/features/admin/VehiclesPage';
 import { CompaniesPage } from '@/presentation/features/system/CompaniesPage';
+import { BranchDailyReportPage } from '@/presentation/features/reports/BranchDailyReportPage';
+import { ShipmentLabelPage } from '@/presentation/features/shipments/ShipmentLabelPage';
 import { DriverTripsPage } from '@/presentation/features/trips/DriverTripsPage';
 import { TripManifestPage } from '@/presentation/features/trips/TripManifestPage';
 import { NewShipmentPage } from '@/presentation/features/shipments/NewShipmentPage';
@@ -54,6 +56,8 @@ export const routes: RouteObject[] = [
               { path: '/branch/shipments', element: <ShipmentsPage /> },
               { path: '/branch/shipments/new', element: <NewShipmentPage /> },
               { path: '/branch/shipments/:trackingNumber', element: <ShipmentDetailPage /> },
+              { path: '/branch/shipments/:trackingNumber/label', element: <ShipmentLabelPage /> },
+              { path: '/branch/report', element: <BranchDailyReportPage /> },
             ],
           },
         ],
