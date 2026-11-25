@@ -18,6 +18,8 @@ const repo: StatsRepository = {
       shipmentsTotal: 5,
       shipmentsByStatus: { received: 5 },
       totalRevenue: 1000,
+      shipmentsPerDay: [{ day: '2026-11-25', count: 5 }],
+      cod: { collected: 900, settled: 400, pending: 500 },
     }),
 };
 const app = (): express.Express => {
@@ -43,6 +45,13 @@ describe('/api/admin/stats', () => {
       .get('/api/admin/stats')
       .set('Authorization', auth('system_admin'));
     expect(res.status).toBe(200);
-    expect((res.body as { data: { users: number } }).data.users).toBe(7);
+    const data = (res.body as { data: Record<string, unknown> }).data;
+    expect(data.users).toBe(7);
+    expect(data).toMatchObject({
+      companies: { approved: 2, pending: 1 },
+      shipmentsByStatus: { received: 5 },
+      shipmentsPerDay: [{ day: '2026-11-25', count: 5 }],
+      cod: { collected: 900, settled: 400, pending: 500 },
+    });
   });
 });

@@ -8,4 +8,6 @@ export interface PlatformStats {
   shipmentsTotal: number;
   shipmentsByStatus: Partial<Record<ShipmentStatus, number>>;
   totalRevenue: number;
+  shipmentsPerDay: { day: string; count: number }[];
+  cod: { collected: number; settled: number; pending: number };
 }

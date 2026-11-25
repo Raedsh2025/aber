@@ -71,11 +71,34 @@ describe('SystemStatsPage', () => {
       shipmentsTotal: 6,
       shipmentsByStatus: { received: 6 },
       totalRevenue: 12000,
+      shipmentsPerDay: [
+        { day: '2026-11-24', count: 2 },
+        { day: '2026-11-25', count: 4 },
+      ],
+      cod: { collected: 900, settled: 400, pending: 500 },
     });
     render(<SystemStatsPage />);
     expect(await screen.findByText('إحصاءات المنصة')).toBeTruthy();
     expect(screen.getByText('12,000')).toBeTruthy();
     expect(screen.getByText('مستلمة')).toBeTruthy();
+    expect(screen.getByText('900')).toBeTruthy();
+    expect(screen.getByText('500')).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'عدد الشحنات يوميًا خلال آخر 14 يومًا' })).toBeTruthy();
+  });
+
+  it('shows an empty message when there are no shipments in 14 days', async () => {
+    platform.mockResolvedValue({
+      companies: {},
+      users: 0,
+      trips: 0,
+      shipmentsTotal: 0,
+      shipmentsByStatus: {},
+      totalRevenue: 0,
+      shipmentsPerDay: [{ day: '2026-11-25', count: 0 }],
+      cod: { collected: 0, settled: 0, pending: 0 },
+    });
+    render(<SystemStatsPage />);
+    expect(await screen.findByText('لا توجد شحنات في هذه الفترة')).toBeTruthy();
   });
 
   it('shows an error with retry', async () => {

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { statsRepository } from '@/app/container';
 import type { PlatformStats } from '@/domain/entities/PlatformStats';
 import { SHIPMENT_STATUS_LABEL, type ShipmentStatus } from '@/domain/entities/Shipment';
+import { BarChart } from '@/presentation/components/ui/BarChart';
 import { Card } from '@/presentation/components/ui/Card';
 import { ErrorState } from '@/presentation/components/ui/ErrorState';
 import { Spinner } from '@/presentation/components/ui/Spinner';
@@ -75,6 +76,36 @@ export function SystemStatsPage(): JSX.Element {
           accent="success"
         />
       </div>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <StatCard
+          label="دفع عند الاستلام: محصّل"
+          value={number.format(stats.cod.collected)}
+          icon={<Banknote />}
+        />
+        <StatCard
+          label="دفع عند الاستلام: مُسوّى"
+          value={number.format(stats.cod.settled)}
+          icon={<Banknote />}
+          accent="success"
+        />
+        <StatCard
+          label="دفع عند الاستلام: غير مُسوّى"
+          value={number.format(stats.cod.pending)}
+          icon={<Banknote />}
+          accent="warning"
+        />
+      </div>
+      <Card>
+        <h3 className="mb-2 font-bold text-navy-900">الشحنات خلال آخر 14 يومًا</h3>
+        {stats.shipmentsPerDay.every((d) => d.count === 0) ? (
+          <p className="text-muted">لا توجد شحنات في هذه الفترة</p>
+        ) : (
+          <BarChart
+            ariaLabel="عدد الشحنات يوميًا خلال آخر 14 يومًا"
+            data={stats.shipmentsPerDay.map((d) => ({ label: d.day.slice(5), value: d.count }))}
+          />
+        )}
+      </Card>
       <Card>
         <h3 className="mb-2 font-bold text-navy-900">الشحنات حسب الحالة</h3>
         {statuses.length === 0 ? (
