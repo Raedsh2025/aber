@@ -87,7 +87,13 @@ const statsRouter = createStatsRouter(
 const estimateRouter = createEstimateRouter(createEstimateService(createEstimateRepository(pool)));
 
 createApp(
-  { corsOrigin: env.CORS_ORIGIN, isTest: env.NODE_ENV === 'test' },
+  {
+    corsOrigin: env.CORS_ORIGIN,
+    isTest: env.NODE_ENV === 'test',
+    dbPing: async () => {
+      await pool.query('select 1');
+    },
+  },
   {
     authRouter: createAuthRouter(authService),
     publicRouter,

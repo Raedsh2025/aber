@@ -10,6 +10,8 @@ const JSON_BODY_LIMIT = '100kb';
 export interface AppConfig {
   corsOrigin: string;
   isTest: boolean;
+  /** Runs `select 1`. Used by GET /health/db; it must not return any data. */
+  dbPing?: () => Promise<void>;
 }
 
 export interface AppRouters {
@@ -37,6 +39,17 @@ export function createApp(config: AppConfig, routers: AppRouters): Express {
 
   app.get('/health', (_req, res) => {
     res.json({ data: { status: 'ok' } });
+  });
+
+  // Keep-alive / readiness check: touches the database, returns no data from it.
+  app.get('/health/db', async (_req, res) => {
+    try {
+      if (!config.dbPing) throw new Error('no database check configured');
+      await config.dbPing();
+      res.json({ data: { status: 'ok' } });
+    } catch {
+      res.status(503).json({ data: { status: 'unavailable' } });
+    }
   });
 
   app.use('/api/auth', routers.authRouter);
