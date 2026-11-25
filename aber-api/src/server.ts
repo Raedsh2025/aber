@@ -16,6 +16,9 @@ import { createTripService } from './modules/trips/trip.service';
 import { createStaffRepository } from './modules/staff/staff.repository';
 import { createStaffRouter } from './modules/staff/staff.routes';
 import { createStaffService } from './modules/staff/staff.service';
+import { createCompanyRepository } from './modules/companies/company.repository';
+import { createCompanyRouter } from './modules/companies/company.routes';
+import { createCompanyService } from './modules/companies/company.service';
 import { createVehicleRepository } from './modules/vehicles/vehicle.repository';
 import { createVehicleRouter } from './modules/vehicles/vehicle.routes';
 import { createVehicleService } from './modules/vehicles/vehicle.service';
@@ -58,6 +61,11 @@ const staffRouter = createStaffRouter(
   createAuthenticate(env.JWT_SECRET),
 );
 
+const companyRouter = createCompanyRouter(
+  createCompanyService(createCompanyRepository(pool)),
+  createAuthenticate(env.JWT_SECRET),
+);
+
 createApp(
   { corsOrigin: env.CORS_ORIGIN, isTest: env.NODE_ENV === 'test' },
   {
@@ -68,6 +76,7 @@ createApp(
     branchRouter,
     vehicleRouter,
     staffRouter,
+    companyRouter,
   },
 ).listen(env.PORT, () => {
   console.log(`aber-api listening on port ${env.PORT}`);
