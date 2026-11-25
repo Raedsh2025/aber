@@ -15,6 +15,7 @@ const testApp = () =>
       vehicleRouter: Router(),
       staffRouter: Router(),
       companyRouter: Router(),
+      reportRouter: Router(),
     },
   );
 
