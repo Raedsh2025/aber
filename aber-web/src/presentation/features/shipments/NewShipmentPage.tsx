@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { JSX } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import {
   createShipmentSchema,
@@ -15,10 +15,12 @@ import { Input } from '@/presentation/components/ui/Input';
 import { Select } from '@/presentation/components/ui/Select';
 import { Spinner } from '@/presentation/components/ui/Spinner';
 import { useAuthStore } from '@/presentation/stores/authStore';
+import { useLivePrice } from '@/presentation/features/estimate/hooks';
 import { useBranches } from './hooks/useBranches';
 import { useCreateShipment } from './hooks/useCreateShipment';
 import { useState } from 'react';
 
+const MAX_PREVIEW_WEIGHT_KG = 20_000;
 const GOODS = Object.keys(GOODS_TYPE_LABEL) as GoodsType[];
 
 export function NewShipmentPage(): JSX.Element {
@@ -34,11 +36,26 @@ export function NewShipmentPage(): JSX.Element {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<CreateShipmentForm>({
     resolver: zodResolver(createShipmentSchema),
     defaultValues: { originBranchId: lockedOrigin, goodsType: 'normal', codAmount: 0 },
   });
+
+  // Live price preview from the server's price endpoint. The official price is still set on creation.
+  const [originId, destId, goodsType, weight] = useWatch({
+    control,
+    name: ['originBranchId', 'destBranchId', 'goodsType', 'weightKg'],
+  });
+  const from = branches.find((b) => b.id === originId)?.governorateCode;
+  const to = branches.find((b) => b.id === destId)?.governorateCode;
+  const weightKg = Number(weight);
+  const previewQuery =
+    from && to && from !== to && weightKg > 0 && weightKg <= MAX_PREVIEW_WEIGHT_KG
+      ? { from, to, weightKg, goodsType: goodsType as GoodsType }
+      : null;
+  const preview = useLivePrice(previewQuery);
 
   const onSubmit = async (form: CreateShipmentForm): Promise<void> => {
     try {
@@ -162,6 +179,17 @@ export function NewShipmentPage(): JSX.Element {
           error={errors.codAmount?.message}
           {...register('codAmount')}
         />
+        {previewQuery && (
+          <p aria-live="polite" className="rounded-md bg-gold-100 px-3 py-2 sm:col-span-2">
+            {preview.loading && 'جارٍ حساب السعر...'}
+            {preview.estimate && (
+              <>
+                السعر المتوقع: <strong dir="ltr">{preview.estimate.price}</strong>
+              </>
+            )}
+            {preview.error}
+          </p>
+        )}
         {saveError && (
           <p role="alert" className="rounded-md bg-danger/10 px-3 py-2 text-danger sm:col-span-2">
             {saveError}
