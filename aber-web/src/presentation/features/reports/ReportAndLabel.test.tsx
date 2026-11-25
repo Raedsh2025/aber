@@ -31,6 +31,7 @@ const user = (role: User['role']): User => ({
   id: 'u',
   fullName: 'اختبار',
   email: 'a@example.test',
+  phone: null,
   role,
   companyId: 'c',
   branchId: null,

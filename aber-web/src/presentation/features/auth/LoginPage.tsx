@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { JSX } from 'react';
 import { useForm } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { loginSchema, type LoginForm } from '@/application/useCases/login';
+import { landingPathFor } from '@/domain/services/landingPath';
 import { Button } from '@/presentation/components/ui/Button';
 import { Card } from '@/presentation/components/ui/Card';
 import { Input } from '@/presentation/components/ui/Input';
 import { useAuthStore } from '@/presentation/stores/authStore';
-import { DEFAULT_LANDING_PATH, useLogin } from './hooks/useLogin';
+import { useLogin } from './hooks/useLogin';
 
 export function LoginPage(): JSX.Element {
   const user = useAuthStore((s) => s.user);
@@ -18,7 +19,7 @@ export function LoginPage(): JSX.Element {
     formState: { errors },
   } = useForm<LoginForm>({ resolver: zodResolver(loginSchema) });
 
-  if (user) return <Navigate to={DEFAULT_LANDING_PATH} replace />;
+  if (user) return <Navigate to={landingPathFor(user.role)} replace />;
 
   // The error is already stored by useAsyncAction and shown below.
   const onSubmit = (form: LoginForm): Promise<void> => run(form).catch(() => undefined);
@@ -29,13 +30,13 @@ export function LoginPage(): JSX.Element {
       <p className="mt-1 mb-5 text-muted">أهلًا بعودتك، أدخل بياناتك للمتابعة.</p>
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-4">
         <Input
-          label="البريد الإلكتروني"
-          type="email"
+          label="البريد الإلكتروني أو رقم الهاتف"
+          type="text"
           dir="ltr"
           autoComplete="username"
           className="text-start"
-          error={errors.email?.message}
-          {...register('email')}
+          error={errors.identifier?.message}
+          {...register('identifier')}
         />
         <Input
           label="كلمة المرور"
@@ -55,6 +56,12 @@ export function LoginPage(): JSX.Element {
           دخول
         </Button>
       </form>
+      <p className="mt-4 text-center text-small text-muted">
+        ليس لديك حساب؟{' '}
+        <Link to="/register" className="font-semibold text-navy-900 underline">
+          إنشاء حساب جديد
+        </Link>
+      </p>
     </Card>
   );
 }

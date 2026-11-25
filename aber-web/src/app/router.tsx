@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '@/presentation/components/shared/ProtectedRoute';
+import { AccountPage } from '@/presentation/features/account/AccountPage';
 import { LoginPage } from '@/presentation/features/auth/LoginPage';
+import { RegisterPage } from '@/presentation/features/auth/RegisterPage';
 import { DashboardPage } from '@/presentation/features/dashboard/DashboardPage';
 import { ForbiddenPage } from '@/presentation/features/errors/ForbiddenPage';
 import { AdminTripsPage } from '@/presentation/features/admin/AdminTripsPage';
@@ -25,14 +27,31 @@ import { AuthLayout } from '@/presentation/layouts/AuthLayout';
 export const routes: RouteObject[] = [
   { path: '/', element: <TrackPage /> }, // Public tracking, no login.
   { path: '/estimate', element: <EstimatePage /> }, // Public price estimate, no login.
-  { element: <AuthLayout />, children: [{ path: '/login', element: <LoginPage /> }] },
+  {
+    element: <AuthLayout />,
+    children: [
+      { path: '/login', element: <LoginPage /> },
+      { path: '/register', element: <RegisterPage /> },
+    ],
+  },
   {
     element: <ProtectedRoute />,
     children: [
       {
         element: <AppLayout />,
         children: [
-          { path: '/dashboard', element: <DashboardPage /> },
+          {
+            element: (
+              <ProtectedRoute
+                roles={['system_admin', 'company_admin', 'branch_staff', 'line_driver']}
+              />
+            ),
+            children: [{ path: '/dashboard', element: <DashboardPage /> }],
+          },
+          {
+            element: <ProtectedRoute roles={['customer']} />,
+            children: [{ path: '/account', element: <AccountPage /> }],
+          },
           {
             element: <ProtectedRoute roles={['company_admin']} />,
             children: [

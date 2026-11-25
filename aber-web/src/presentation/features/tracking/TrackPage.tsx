@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
-import { useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Logo } from '@/presentation/components/shared/Logo';
 import { Button } from '@/presentation/components/ui/Button';
 import { Card } from '@/presentation/components/ui/Card';
@@ -11,8 +11,19 @@ import { useTrackShipment } from './hooks/useTrackShipment';
 
 // Public page: no login needed.
 export function TrackPage(): JSX.Element {
-  const [number, setNumber] = useState('');
+  const [searchParams] = useSearchParams();
+  const initialNumber = searchParams.get('track') ?? '';
+  const [number, setNumber] = useState(initialNumber);
   const { track, result, loading, error } = useTrackShipment();
+
+  // A link like /?track=AB26... (from the account page) tracks it right away.
+  const autoTracked = useRef(false);
+  useEffect(() => {
+    if (!autoTracked.current && initialNumber) {
+      autoTracked.current = true;
+      track(initialNumber).catch(() => undefined);
+    }
+  }, [initialNumber, track]);
 
   const onSubmit = (event: FormEvent): void => {
     event.preventDefault();

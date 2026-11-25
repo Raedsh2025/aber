@@ -54,9 +54,9 @@ deploy/keepalive.yml        optional GitHub Actions keep-alive (copy to .github/
 | Company admin | Branches, staff, vehicles, trips, shipments, reports |
 | Branch staff | Create shipments, print labels, deliver with OTP, daily report |
 | Line driver | See own trips, scan loading and arrival |
-| Customer (public, no login) | Public tracking and price estimate only |
+| Customer | Sign up, sign in with email or phone, see own shipments, public tracking and price estimate |
 
-Shipments are created only by branch staff and the company admin. The `customer` value stays in the database enum for compatibility.
+Shipments are created only by branch staff and the company admin. A customer account is created by the customer himself at `/register`; he never creates shipments.
 
 ## Run locally (Node 20+)
 
@@ -142,7 +142,7 @@ Full Arabic guide: `deploy/DEPLOYMENT_AR.md`. Short version:
 ## Scope and known limitations
 
 - No server-side PDF. Reports and labels are printed from the browser (`Print / Save as PDF`, A4 print styles).
-- No customer self-service shipment creation. The public customer can only track and estimate a price.
+- No customer self-service shipment creation. A customer's shipment list is matched by phone number: anyone who registers someone else's number would see that person's shipments, so treat it as a convenience view, not proof of ownership.
 - No GPS or live vehicle location.
 - No online payment. Cash on delivery is recorded when a shipment is delivered; there is no card or online checkout.
 - Camera QR scanning needs HTTPS (or localhost). A manual tracking-number input is next to the camera.

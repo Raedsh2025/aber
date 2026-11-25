@@ -37,6 +37,7 @@ const admin: User = {
   id: 'u',
   fullName: 'مدير',
   email: 'a@example.test',
+  phone: null,
   role: 'company_admin',
   companyId: 'c',
   branchId: null,

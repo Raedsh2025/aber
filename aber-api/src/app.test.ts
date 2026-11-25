@@ -5,6 +5,7 @@ import { createApp, type AppRouters } from './app';
 
 const routersForTest = (): AppRouters => ({
   authRouter: Router(),
+  accountRouter: Router(),
   publicRouter: Router(),
   shipmentRouter: Router(),
   tripRouter: Router(),

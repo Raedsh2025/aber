@@ -15,6 +15,7 @@ const fakeUser: User = {
   id: 'u1',
   fullName: 'Test User',
   email: 'test@example.test',
+  phone: null,
   role: 'system_admin',
   companyId: null,
   branchId: null,
@@ -43,7 +44,7 @@ describe('LoginPage', () => {
   it('shows Arabic validation errors and does not call the API', async () => {
     renderPage();
     fireEvent.click(screen.getByRole('button', { name: 'دخول' }));
-    expect(await screen.findByText('أدخل البريد الإلكتروني')).toBeTruthy();
+    expect(await screen.findByText('أدخل البريد الإلكتروني أو رقم الهاتف')).toBeTruthy();
     expect(screen.getByText('أدخل كلمة المرور')).toBeTruthy();
     expect(loginMock).not.toHaveBeenCalled();
   });
@@ -51,7 +52,7 @@ describe('LoginPage', () => {
   it('logs in, stores the token and goes to the dashboard', async () => {
     loginMock.mockResolvedValue({ token: 'random-token', user: fakeUser });
     renderPage();
-    fireEvent.change(screen.getByLabelText('البريد الإلكتروني'), {
+    fireEvent.change(screen.getByLabelText('البريد الإلكتروني أو رقم الهاتف'), {
       target: { value: 'test@example.test' },
     });
     fireEvent.change(screen.getByLabelText('كلمة المرور'), { target: { value: 'x' } });
@@ -64,7 +65,7 @@ describe('LoginPage', () => {
   it('shows the server error message when login fails', async () => {
     loginMock.mockRejectedValue(new Error('بيانات الدخول غير صحيحة'));
     renderPage();
-    fireEvent.change(screen.getByLabelText('البريد الإلكتروني'), {
+    fireEvent.change(screen.getByLabelText('البريد الإلكتروني أو رقم الهاتف'), {
       target: { value: 'test@example.test' },
     });
     fireEvent.change(screen.getByLabelText('كلمة المرور'), { target: { value: 'x' } });
