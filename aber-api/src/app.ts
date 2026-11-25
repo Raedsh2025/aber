@@ -10,6 +10,8 @@ const JSON_BODY_LIMIT = '100kb';
 export interface AppConfig {
   corsOrigin: string;
   isTest: boolean;
+  /** Runs `select 1`. Used by GET /health/db; it must not return any data. */
+  dbPing?: () => Promise<void>;
 }
 
 export interface AppRouters {
@@ -22,6 +24,8 @@ export interface AppRouters {
   staffRouter: Router;
   companyRouter: Router;
   reportRouter: Router;
+  statsRouter: Router;
+  estimateRouter: Router;
 }
 
 // Config and routers are passed in (not imported) so the app and its tests do not need
@@ -37,14 +41,27 @@ export function createApp(config: AppConfig, routers: AppRouters): Express {
     res.json({ data: { status: 'ok' } });
   });
 
+  // Keep-alive / readiness check: touches the database, returns no data from it.
+  app.get('/health/db', async (_req, res) => {
+    try {
+      if (!config.dbPing) throw new Error('no database check configured');
+      await config.dbPing();
+      res.json({ data: { status: 'ok' } });
+    } catch {
+      res.status(503).json({ data: { status: 'unavailable' } });
+    }
+  });
+
   app.use('/api/auth', routers.authRouter);
   app.use('/api/public', routers.publicRouter);
+  app.use('/api/public', routers.estimateRouter);
   app.use('/api/shipments', routers.shipmentRouter);
   app.use('/api/trips', routers.tripRouter);
   app.use('/api/branches', routers.branchRouter);
   app.use('/api/vehicles', routers.vehicleRouter);
   app.use('/api/staff', routers.staffRouter);
   app.use('/api/admin/companies', routers.companyRouter);
+  app.use('/api/admin/stats', routers.statsRouter);
   app.use('/api/reports', routers.reportRouter);
 
   app.use((_req, _res, next) => {

@@ -22,6 +22,11 @@ import { createCompanyService } from './modules/companies/company.service';
 import { createReportRepository } from './modules/reports/report.repository';
 import { createReportRouter } from './modules/reports/report.routes';
 import { createReportService } from './modules/reports/report.service';
+import { createEstimateRepository } from './modules/estimate/estimate.repository';
+import { createEstimateRouter } from './modules/estimate/estimate.routes';
+import { createEstimateService } from './modules/estimate/estimate.service';
+import { createStatsRepository } from './modules/stats/stats.repository';
+import { createStatsRouter } from './modules/stats/stats.routes';
 import { createVehicleRepository } from './modules/vehicles/vehicle.repository';
 import { createVehicleRouter } from './modules/vehicles/vehicle.routes';
 import { createVehicleService } from './modules/vehicles/vehicle.service';
@@ -74,8 +79,21 @@ const reportRouter = createReportRouter(
   createAuthenticate(env.JWT_SECRET),
 );
 
+const statsRouter = createStatsRouter(
+  createStatsRepository(pool),
+  createAuthenticate(env.JWT_SECRET),
+);
+
+const estimateRouter = createEstimateRouter(createEstimateService(createEstimateRepository(pool)));
+
 createApp(
-  { corsOrigin: env.CORS_ORIGIN, isTest: env.NODE_ENV === 'test' },
+  {
+    corsOrigin: env.CORS_ORIGIN,
+    isTest: env.NODE_ENV === 'test',
+    dbPing: async () => {
+      await pool.query('select 1');
+    },
+  },
   {
     authRouter: createAuthRouter(authService),
     publicRouter,
@@ -86,6 +104,8 @@ createApp(
     staffRouter,
     companyRouter,
     reportRouter,
+    statsRouter,
+    estimateRouter,
   },
 ).listen(env.PORT, () => {
   console.log(`aber-api listening on port ${env.PORT}`);

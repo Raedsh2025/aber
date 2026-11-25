@@ -7,6 +7,8 @@ import { AdminTripsPage } from '@/presentation/features/admin/AdminTripsPage';
 import { BranchesPage } from '@/presentation/features/admin/BranchesPage';
 import { StaffPage } from '@/presentation/features/admin/StaffPage';
 import { VehiclesPage } from '@/presentation/features/admin/VehiclesPage';
+import { EstimatePage } from '@/presentation/features/estimate/EstimatePage';
+import { SystemStatsPage } from '@/presentation/features/system/SystemStatsPage';
 import { CompaniesPage } from '@/presentation/features/system/CompaniesPage';
 import { BranchDailyReportPage } from '@/presentation/features/reports/BranchDailyReportPage';
 import { ShipmentLabelPage } from '@/presentation/features/shipments/ShipmentLabelPage';
@@ -22,6 +24,7 @@ import { AuthLayout } from '@/presentation/layouts/AuthLayout';
 // Driver, company admin and system admin screens are added in the next Phase 7 PRs.
 export const routes: RouteObject[] = [
   { path: '/', element: <TrackPage /> }, // Public tracking, no login.
+  { path: '/estimate', element: <EstimatePage /> }, // Public price estimate, no login.
   { element: <AuthLayout />, children: [{ path: '/login', element: <LoginPage /> }] },
   {
     element: <ProtectedRoute />,
@@ -41,7 +44,10 @@ export const routes: RouteObject[] = [
           },
           {
             element: <ProtectedRoute roles={['system_admin']} />,
-            children: [{ path: '/system/companies', element: <CompaniesPage /> }],
+            children: [
+              { path: '/system/stats', element: <SystemStatsPage /> },
+              { path: '/system/companies', element: <CompaniesPage /> },
+            ],
           },
           {
             element: <ProtectedRoute roles={['line_driver']} />,

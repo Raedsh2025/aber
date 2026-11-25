@@ -14,5 +14,5 @@ export const ROLE_LABEL: Record<Role, string> = {
   company_admin: 'مدير الشركة',
   branch_staff: 'موظف الفرع',
   line_driver: 'سائق الخط',
-  customer: 'عميل',
+  customer: 'عميل (تتبع وتقدير سعر)',
 };

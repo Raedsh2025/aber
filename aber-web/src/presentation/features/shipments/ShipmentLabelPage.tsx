@@ -1,11 +1,10 @@
-import { Printer } from 'lucide-react';
 import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { shipmentRepository } from '@/app/container';
 import { GOODS_TYPE_LABEL, type Shipment } from '@/domain/entities/Shipment';
 import { QrLabel } from '@/presentation/components/shared/QrLabel';
-import { Button } from '@/presentation/components/ui/Button';
+import { PrintButton } from '@/presentation/components/ui/PrintButton';
 import { ErrorState } from '@/presentation/components/ui/ErrorState';
 import { Spinner } from '@/presentation/components/ui/Spinner';
 
@@ -42,10 +41,7 @@ export function ShipmentLabelPage(): JSX.Element {
         >
           رجوع للشحنة
         </Link>
-        <Button onClick={() => window.print()}>
-          <Printer aria-hidden="true" className="me-2 h-4 w-4" />
-          طباعة
-        </Button>
+        <PrintButton />
       </div>
       <section
         aria-label="ملصق الشحنة"

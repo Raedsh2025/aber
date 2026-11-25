@@ -70,14 +70,14 @@
 3. تسجيل الدخول والتخطيط العام (Layout) بالـ RTL.
 
 ### المرحلة 7 — الواجهة: الشاشات (الأسبوع 6–8)
-1. العميل: إنشاء الطلب والتتبع العام.
+1. العميل (دور عام بلا حساب دخول): التتبع العام وحاسبة تقدير السعر فقط. الشحنات يُنشئها موظف الفرع ومدير الشركة حصرًا.
 2. موظف الفرع: الاستلام، الوزن، الملصق و QR، التسليم.
 3. السائق: الرحلات ومسح QR.
 4. مدير الشركة: الفروع والموظفون والمركبات والرحلات والتقارير.
 5. مدير النظام: اعتماد الشركات والإحصاءات.
 
 ### المرحلة 8 — التقارير والـ QR (الأسبوع 8–9)
-تقرير PDF لكل شحنة، تقرير الفرع اليومي، وصفحة الطباعة للملصق.
+تقرير الشحنة وتقرير الفرع اليومي وملصق QR كصفحات طباعة من المتصفح (@media print وزر «طباعة / حفظ PDF»). لا يوجد توليد PDF على الخادم (غير منفّذ، بقرار المستخدم).
 
 ### المرحلة 9 — الاختبار والنشر (الأسبوع 9–10)
 1. اختبارات للمنطق الحرج (الانتقالات، التسعير، السعة).
@@ -127,10 +127,10 @@ npm i -D vitest @testing-library/react @testing-library/jest-dom jsdom
 ```bash
 mkdir aber-api && cd aber-api && npm init -y
 
-npm i express pg zod jsonwebtoken bcryptjs helmet cors morgan dotenv express-rate-limit pdfkit
+npm i express pg zod jsonwebtoken bcryptjs helmet cors morgan dotenv express-rate-limit
 
 npm i -D typescript tsx @types/node @types/express @types/pg \
-  @types/jsonwebtoken @types/bcryptjs @types/cors @types/morgan @types/pdfkit \
+  @types/jsonwebtoken @types/bcryptjs @types/cors @types/morgan \
   vitest supertest @types/supertest
 ```
 
@@ -146,7 +146,6 @@ npm i -D typescript tsx @types/node @types/express @types/pg \
 | `pg` | الاتصال بـ PostgreSQL مباشرة |
 | `jsonwebtoken` + `bcryptjs` | الهوية وتشفير كلمات المرور |
 | `helmet` + `cors` + `express-rate-limit` | حماية الخادم |
-| `pdfkit` | تقارير PDF |
 
 ---
 
@@ -555,7 +554,7 @@ export interface StatusHistoryItem {
   note: string | null;
 }
 
-/** ما يراه العميل في صفحة التتبع العامة (بدون بيانات حساسة) */
+/** ما يراه الزائر في صفحة التتبع العامة (بدون بيانات حساسة) */
 export interface PublicTracking {
   trackingNumber: string;
   status: ShipmentStatus;
@@ -2206,6 +2205,7 @@ npm run seed:admin -- admin@aber.test "ضع_كلمة_مرور_قوية"
 -- =====================================================
 create type user_role as enum
   ('system_admin','company_admin','branch_staff','line_driver','customer');
+-- ملاحظة: القيمة customer محفوظة للتوافق؛ الدور العام للتتبع وتقدير السعر ولا ينشئ شحنات.
 create type company_status as enum ('pending','approved','suspended');
 create type goods_type as enum ('normal','fragile','refrigerated');
 create type shipment_status as enum
@@ -2499,6 +2499,8 @@ select t.id, t.departure_at, v.free_kg
 |---|---|---|---|
 | POST | `/api/auth/login` | عام | تسجيل الدخول |
 | GET | `/api/public/track/:trackingNumber` | عام | التتبع العام |
+| GET | `/api/public/estimate?from&to&weightKg&goodsType` | عام | تقدير السعر (نفس دالة التسعير) |
+| GET | `/api/public/governorates` | عام | المحافظات المسعّرة فقط |
 | POST | `/api/shipments` | موظف الفرع، مدير الشركة | إنشاء شحنة |
 | GET | `/api/shipments` | موظف، سائق، مدير | قائمة الشحنات (بفلاتر) |
 | GET | `/api/shipments/by-tracking/:n` | موظف، سائق، مدير | شحنة برقم البوليصة (بعد مسح QR) |
@@ -2508,7 +2510,7 @@ select t.id, t.departure_at, v.free_kg
 | POST | `/api/trips/:id/assign` | موظف، مدير | إسناد شحنة لرحلة مع فحص السعة |
 | POST | `/api/trips/:id/scan` | سائق، موظف | مسح تحميل/وصول |
 | GET | `/api/trips/suggest` | موظف | الجدولة الذكية |
-| GET | `/api/reports/shipments/:id/pdf` | حسب الصلاحية | تقرير PDF للشحنة |
+| — | ~~`/api/reports/shipments/:id/pdf`~~ | — | غير منفّذ: الطباعة من المتصفح بدل PDF الخادم |
 | GET | `/api/reports/branch-daily` | موظف، مدير | تقرير الفرع اليومي |
 | PATCH | `/api/admin/companies/:id/status` | مدير النظام | اعتماد الشركات |
 

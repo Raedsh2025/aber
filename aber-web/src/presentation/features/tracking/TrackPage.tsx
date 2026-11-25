@@ -68,9 +68,20 @@ export function TrackPage(): JSX.Element {
         </Card>
       )}
 
-      <Link to="/login" className="font-semibold text-navy-700 underline-offset-4 hover:underline">
-        دخول الموظفين
-      </Link>
+      <nav className="flex gap-4">
+        <Link
+          to="/estimate"
+          className="font-semibold text-navy-700 underline-offset-4 hover:underline"
+        >
+          احسب سعر الشحن
+        </Link>
+        <Link
+          to="/login"
+          className="font-semibold text-navy-700 underline-offset-4 hover:underline"
+        >
+          دخول الموظفين
+        </Link>
+      </nav>
     </main>
   );
 }
