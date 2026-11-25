@@ -16,6 +16,7 @@ export interface AppConfig {
 
 export interface AppRouters {
   authRouter: Router;
+  accountRouter: Router;
   publicRouter: Router;
   shipmentRouter: Router;
   tripRouter: Router;
@@ -53,6 +54,7 @@ export function createApp(config: AppConfig, routers: AppRouters): Express {
   });
 
   app.use('/api/auth', routers.authRouter);
+  app.use('/api/my', routers.accountRouter);
   app.use('/api/public', routers.publicRouter);
   app.use('/api/public', routers.estimateRouter);
   app.use('/api/shipments', routers.shipmentRouter);

@@ -1,6 +1,9 @@
 import { createApp } from './app';
 import { env } from './config/env';
 import { pool, withTransaction } from './db/pool';
+import { createAccountRepository } from './modules/account/account.repository';
+import { createAccountRouter } from './modules/account/account.routes';
+import { createAccountService } from './modules/account/account.service';
 import { createAuthRepository } from './modules/auth/auth.repository';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import { createAuthService } from './modules/auth/auth.service';
@@ -37,6 +40,11 @@ const authService = createAuthService(createAuthRepository(pool), {
   jwtSecret: env.JWT_SECRET,
   jwtExpiresIn: env.JWT_EXPIRES_IN,
 });
+
+const accountRouter = createAccountRouter(
+  createAccountService(createAccountRepository(pool)),
+  createAuthenticate(env.JWT_SECRET),
+);
 
 const shipmentService = createShipmentService(createShipmentRepository(pool), (work) =>
   withTransaction((client) => work(createShipmentRepository(client))),
@@ -96,6 +104,7 @@ createApp(
   },
   {
     authRouter: createAuthRouter(authService),
+    accountRouter,
     publicRouter,
     shipmentRouter,
     tripRouter,

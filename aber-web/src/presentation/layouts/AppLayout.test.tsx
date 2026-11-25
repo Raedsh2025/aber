@@ -14,6 +14,7 @@ const asRole = (role: User['role']): void => {
       id: 'u',
       fullName: 'اختبار',
       email: 'a@example.test',
+      phone: null,
       role,
       companyId: 'c',
       branchId: null,

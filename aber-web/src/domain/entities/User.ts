@@ -4,6 +4,7 @@ export interface User {
   id: string;
   fullName: string;
   email: string;
+  phone: string | null;
   role: Role;
   companyId: string | null;
   branchId: string | null;
@@ -14,5 +15,5 @@ export const ROLE_LABEL: Record<Role, string> = {
   company_admin: 'مدير الشركة',
   branch_staff: 'موظف الفرع',
   line_driver: 'سائق الخط',
-  customer: 'عميل (تتبع وتقدير سعر)',
+  customer: 'عميل',
 };

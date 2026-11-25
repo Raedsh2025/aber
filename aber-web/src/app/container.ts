@@ -9,6 +9,7 @@ import { makeCreateTrip } from '@/application/useCases/createTrip';
 import { makeCreateVehicle } from '@/application/useCases/createVehicle';
 import { makeDeliverShipment } from '@/application/useCases/deliverShipment';
 import { makeScanShipment } from '@/application/useCases/scanTrip';
+import { ApiAccountRepository } from '@/infrastructure/repositories/ApiAccountRepository';
 import { ApiAuthRepository } from '@/infrastructure/repositories/ApiAuthRepository';
 import { ApiBranchRepository } from '@/infrastructure/repositories/ApiBranchRepository';
 import { ApiCompanyRepository } from '@/infrastructure/repositories/ApiCompanyRepository';
@@ -22,6 +23,7 @@ import { ApiTripRepository } from '@/infrastructure/repositories/ApiTripReposito
 
 // The only place that knows the real implementations. Tests replace it with fakes.
 export const authRepository = new ApiAuthRepository();
+export const accountRepository = new ApiAccountRepository();
 export const shipmentRepository = new ApiShipmentRepository();
 export const branchRepository = new ApiBranchRepository();
 export const tripRepository = new ApiTripRepository();

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import type { JSX } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { ROLE_LABEL } from '@/domain/entities/User';
+import { landingPathFor } from '@/domain/services/landingPath';
 import { Logo } from '@/presentation/components/shared/Logo';
 import { Button } from '@/presentation/components/ui/Button';
 import { useAuthStore } from '@/presentation/stores/authStore';
@@ -28,7 +29,7 @@ export function AppLayout(): JSX.Element {
     <div className="bg-page min-h-screen">
       <header className="no-print bg-brand sticky top-0 z-10 text-white shadow-lift">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <NavLink to="/dashboard" aria-label="الرئيسية">
+          <NavLink to={user ? landingPathFor(user.role) : '/'} aria-label="الرئيسية">
             <Logo tone="light" />
           </NavLink>
           {user && (
@@ -55,7 +56,7 @@ export function AppLayout(): JSX.Element {
         className="no-print border-b border-line bg-surface/80 backdrop-blur"
       >
         <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-2">
-          <NavLink to="/dashboard" className={navClass}>
+          <NavLink to={user ? landingPathFor(user.role) : '/'} className={navClass}>
             الرئيسية
           </NavLink>
           {user?.role === 'company_admin' &&

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z.string().trim().min(1, 'أدخل البريد الإلكتروني').pipe(z.email('بريد إلكتروني غير صالح')),
+  identifier: z.string().trim().min(1, 'أدخل البريد الإلكتروني أو رقم الهاتف'),
   password: z.string().min(1, 'أدخل كلمة المرور'),
 });
 

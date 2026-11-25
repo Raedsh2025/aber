@@ -22,6 +22,7 @@ const user = {
   id: '1',
   fullName: 'n',
   email: 'a@b.test',
+  phone: null,
   role: 'customer' as const,
   companyId: null,
   branchId: null,
