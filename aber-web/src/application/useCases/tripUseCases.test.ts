@@ -21,6 +21,7 @@ const trip = (status: Trip['status']): Trip => ({
 });
 
 const fakeRepo = (): TripRepository => ({
+  create: vi.fn().mockResolvedValue({}),
   list: vi.fn(),
   getManifest: vi.fn(),
   scan: vi.fn().mockResolvedValue({ duplicate: false }),

@@ -1,5 +1,5 @@
 import type { Manifest, ScanResult, ScanType, Trip, TripStatus } from '@/domain/entities/Trip';
-import type { TripRepository } from '@/domain/repositories/TripRepository';
+import type { CreateTripInput, TripRepository } from '@/domain/repositories/TripRepository';
 import { http } from '../http/httpClient';
 
 interface Envelope<T> {
@@ -7,6 +7,11 @@ interface Envelope<T> {
 }
 
 export class ApiTripRepository implements TripRepository {
+  async create(input: CreateTripInput): Promise<Trip> {
+    const res = await http.post<Envelope<Trip>>('/trips', input);
+    return res.data.data;
+  }
+
   async list(status?: TripStatus): Promise<Trip[]> {
     const res = await http.get<Envelope<Trip[]>>('/trips', { params: { status } });
     return res.data.data;
