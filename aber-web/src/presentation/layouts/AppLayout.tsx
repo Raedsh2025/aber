@@ -61,6 +61,11 @@ export function AppLayout(): JSX.Element {
                 {link.label}
               </NavLink>
             ))}
+          {user?.role === 'system_admin' && (
+            <NavLink to="/system/companies" className={navClass}>
+              الشركات
+            </NavLink>
+          )}
           {user?.role === 'line_driver' && (
             <NavLink to="/driver/trips" className={navClass}>
               رحلاتي
