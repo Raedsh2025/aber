@@ -18,6 +18,8 @@ export interface AppRouters {
   shipmentRouter: Router;
   tripRouter: Router;
   branchRouter: Router;
+  vehicleRouter: Router;
+  staffRouter: Router;
 }
 
 // Config and routers are passed in (not imported) so the app and its tests do not need
@@ -38,6 +40,8 @@ export function createApp(config: AppConfig, routers: AppRouters): Express {
   app.use('/api/shipments', routers.shipmentRouter);
   app.use('/api/trips', routers.tripRouter);
   app.use('/api/branches', routers.branchRouter);
+  app.use('/api/vehicles', routers.vehicleRouter);
+  app.use('/api/staff', routers.staffRouter);
 
   app.use((_req, _res, next) => {
     next(new AppError(404, 'NOT_FOUND', 'المسار غير موجود'));

@@ -12,6 +12,8 @@ const testApp = () =>
       shipmentRouter: Router(),
       tripRouter: Router(),
       branchRouter: Router(),
+      vehicleRouter: Router(),
+      staffRouter: Router(),
     },
   );
 
